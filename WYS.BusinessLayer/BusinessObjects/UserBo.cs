@@ -26,7 +26,7 @@ namespace WYS.BusinessLayer.BusinessObjects
         public int RoleId { get; set; }
 
         public int DomainId { get; set; }
-        public string Username { get; set; }
+       
         public string Password { get; set; }
         public String Email { get; set; }
         public String Token { get; set; }
@@ -35,19 +35,21 @@ namespace WYS.BusinessLayer.BusinessObjects
         public DateTime DateModified { get; set; }
 
         public int IsDeleted { get; set; }
+        public int IsVerified { get; set; }
+
         #endregion
 
 
         #region User Implemented Methods
 
-        public bool Save(string username, string password, string email, int roleId, int domainId)
+        public bool Save(string email, string password, int roleId, int domainId)
         {
             bool isSaved = false;
             var userDao = DataAccess.UserDao;
 
             try
             {
-                var status = userDao.Save(username, password, email, domainId, roleId);
+                var status = userDao.Save(email, password, domainId, roleId);
                 if (status)
                 {
                     isSaved = true;
@@ -109,19 +111,19 @@ namespace WYS.BusinessLayer.BusinessObjects
             return user;
         }
 
-        public bool CheckUsername(string username)
+        public bool CheckUsername(string email)
         {
             var userDao = DataAccess.UserDao;
             const bool available = true;
             const bool notAvail = false;
             try
             {
-                var ds = userDao.CheckUsername(username);
+                var ds = userDao.CheckUsername(email);
 
                 if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
                     var user = MapperBo.ToUserBo(ds.Tables[0].Rows[0]);
-                    if (user.Username.Trim().ToLower().Equals(username.Trim().ToLower()))
+                    if (user.Email.Trim().ToLower().Equals(email.Trim().ToLower()))
                     {
                         return notAvail;
                     }
@@ -136,14 +138,14 @@ namespace WYS.BusinessLayer.BusinessObjects
             return available;
         }
 
-        public string GetPassword(string username)
+        public string GetPassword(string email)
         {
             var userDao = DataAccess.UserDao;
             String password = null;
 
             try
             {
-                var ds = userDao.GetPassword(username);
+                var ds = userDao.GetPassword(email);
                 if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
                     var user = MapperBo.ToUserBo(ds.Tables[0].Rows[0]);
@@ -177,13 +179,13 @@ namespace WYS.BusinessLayer.BusinessObjects
             return status;
         }
 
-        public bool UpdateToken(String token, String username)
+        public bool UpdateToken(String token, String email)
         {
             var userDao = DataAccess.UserDao;
             bool status = false;
             try
             {
-                if (userDao.UpdateToken(token, username))
+                if (userDao.UpdateToken(token, email))
                 {
                     status = true;
                 }

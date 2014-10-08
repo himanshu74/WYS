@@ -14,7 +14,7 @@
     <RootNamespace>WYS</RootNamespace>
     <AssemblyName>WYS</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <UseIISExpress>true</UseIISExpress>
+    <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -86,6 +86,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\EmailManager.cs" />
     <Compile Include="Helpers\HttpResponseHelper.cs" />
     <Compile Include="Helpers\PasswordManager.cs" />
     <Compile Include="Helpers\TokenManager.cs" />
@@ -129,7 +130,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>9194</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:9194/</IISUrl>
+          <IISUrl>http://localhost/WYS</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

@@ -13,10 +13,10 @@ namespace WYS.BusinessLayer.BusinessInterfaces
         int RoleId { get; set; }
 
         int DomainId { get; set; }
-        String Username { get; set; }
+        String Email { get; set; }
         String Password { get; set; }
 
-        String Email { get; set; }
+
 
         String Token { get; set; }
         DateTime DateAdded { get; set; }
@@ -25,26 +25,27 @@ namespace WYS.BusinessLayer.BusinessInterfaces
 
         int IsDeleted { get; set; }
 
+        int IsVerified { get; set; }
         #endregion
 
 
         #region Methods
 
-        bool Save(String username, String password, string email, int domainId, int roleId);
+        bool Save(string email, String password, int domainId, int roleId);
         List<IUserBo> Getall();
 
         IUserBo GetByid(int userId);
 
-        bool CheckUsername(String username);
+        bool CheckUsername(String email);
 
-        String GetPassword(String username);
+        String GetPassword(String email);
 
         bool Delete(int userId);
 
-        bool Update(String username, String password, int userId, int roleId);
+        bool Update(String email, String password, int userId, int roleId);
 
 
-        bool UpdateToken(String token, String username);
+        bool UpdateToken(String token, String email);
 
         #endregion
     }

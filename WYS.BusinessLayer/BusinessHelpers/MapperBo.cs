@@ -19,8 +19,9 @@ namespace WYS.BusinessLayer.BusinessHelpers
            if (row.Table.Columns.Contains("user_id"))
                userBo.UserId = row["user_id"].ToInt32();
 
-           if (row.Table.Columns.Contains("username"))
-               userBo.Username = row["username"].ToString();
+
+           if (row.Table.Columns.Contains("email"))
+               userBo.Email = row["email"].ToString();
 
            if (row.Table.Columns.Contains("password"))
                userBo.Password = row["password"].ToString();
@@ -31,23 +32,24 @@ namespace WYS.BusinessLayer.BusinessHelpers
            if (row.Table.Columns.Contains("domain_id"))
                userBo.DomainId = row["domain_id"].ToInt32();
 
-           if (row.Table.Columns.Contains(""))
-               userBo.Email = row["email"].ToString();
 
-           if (row.Table.Columns.Contains(""))
+           if (row.Table.Columns.Contains("token"))
                userBo.Token = row["token"].ToString();
 
-           if (row.Table.Columns.Contains(""))
+           if (row.Table.Columns.Contains("date_added"))
                userBo.DateAdded = row["date"].ToDateTime();
 
-           if (row.Table.Columns.Contains(""))
+           if (row.Table.Columns.Contains("date_modified"))
                userBo.DateModified = row["date_modified"].ToDateTime();
 
-           if (row.Table.Columns.Contains(""))
+           if (row.Table.Columns.Contains("date_deleted"))
                userBo.DateDeleted = row["date_deleted"].ToDateTime();
 
-           if (row.Table.Columns.Contains(""))
+           if (row.Table.Columns.Contains("isDeleted"))
                userBo.IsDeleted = row["is_deleted"].ToInt32();
+
+           if (row.Table.Columns.Contains("isVerified"))
+               userBo.IsVerified = row["isVerified"].ToInt32();
 
            return userBo;
        } 

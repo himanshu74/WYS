@@ -13,10 +13,13 @@ namespace WYS.DTOS
 
         public int DomainId { get; set; }
 
-        public String Username { get; set; }
+        public String Email { get; set; }
         public String Password { get; set; }
 
-        public String Email { get; set; }
+        public String Token { get; set; }
+
+        public int IsVerified { get; set; }
+
         public int IsDeleted { get; set; }
         public DateTime DateAdded { get; set; }
 

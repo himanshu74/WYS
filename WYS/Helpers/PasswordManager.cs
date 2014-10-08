@@ -11,6 +11,7 @@ namespace WYS.Helpers
         public const int HashByteSize = 24;
         public const int Pbkdf2Iterations = 1000;
         public const int IterationIndex = 0;
+
         public const int SaltIndex = 1;
         public const int Pbkdf2Index = 2;
 

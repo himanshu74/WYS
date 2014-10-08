@@ -5,7 +5,7 @@ namespace WYS.DataLayer.DAHelpers
    public static class StoredProcedure
     {
        public  const String RegisterUser= "register_user";
-       public const int RegisterUserParameters = 5;
+       public const int RegisterUserParameters = 4;
 
        public const String DeleteUser = "delete_user";
        public const int DeleteUserParameters = 1;

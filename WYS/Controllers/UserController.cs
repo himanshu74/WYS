@@ -28,7 +28,7 @@ namespace WYS.Controllers
 
 
                     IUserBo userBo = new UserBo();
-                    userBo.Save(userDto.Username, encryptedPassword, userDto.Email, userDto.DomainId, userDto.RoleId);
+                    userBo.Save(userDto.Email, encryptedPassword, userDto.DomainId, userDto.RoleId);
                 }
                 catch (Exception exception)
                 {

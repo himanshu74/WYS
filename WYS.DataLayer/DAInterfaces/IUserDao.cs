@@ -7,17 +7,17 @@ namespace WYS.DataLayer.DAInterfaces
     public interface IUserDao
     {
 
-        bool Save(String username, String password,String email, int domainId, int userRole);
+        bool Save(String email, String password, int domainId, int userRole);
         DataSet GetAll();
         DataSet GetById(int userId);
 
-        DataSet CheckUsername(String username);
+        DataSet CheckUsername(String email);
 
-        DataSet GetPassword(String username);
+        DataSet GetPassword(String email);
 
-        bool UpdateToken(String token, String username);
+        bool UpdateToken(String token, String email);
 
-        bool Update(String username, String password, int userId, int userRole);
+        bool Update(String email, String password, int userId, int userRole);
         bool Delete(int userId);
 
 

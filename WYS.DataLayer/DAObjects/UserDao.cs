@@ -19,14 +19,13 @@ namespace WYS.DataLayer.DAObjects
 
         #region Implemented Methods
 
-        public bool Save(string username, string password, String email, int domainId, int userRole)
+        public bool Save(String email, string password, int domainId, int userRole)
         {
             bool isSaved = false;
 
             var sp = new SqlParameterHelper(StoredProcedure.RegisterUser, StoredProcedure.RegisterUserParameters);
-            sp.DefineSqlParameter("@username",SqlDbType.VarChar, ParameterDirection.Input,username);
+            sp.DefineSqlParameter("@email", SqlDbType.VarChar, ParameterDirection.Input, email);
             sp.DefineSqlParameter("@password",SqlDbType.VarChar, ParameterDirection.Input, password);
-            sp.DefineSqlParameter("@email",SqlDbType.VarChar, ParameterDirection.Input,email );
             sp.DefineSqlParameter("@domain_id",SqlDbType.Int, ParameterDirection.Input,domainId);
             sp.DefineSqlParameter("@role_id", SqlDbType.Int, ParameterDirection.Input, userRole);
 
@@ -82,11 +81,11 @@ namespace WYS.DataLayer.DAObjects
             return ds;
         }
 
-        public DataSet CheckUsername(string username)
+        public DataSet CheckUsername(string email)
         {
             DataSet ds;
             var sp = new SqlParameterHelper(StoredProcedure.CheckUsername,StoredProcedure.CheckUsernamePara);
-            sp.DefineSqlParameter("@username",SqlDbType.VarChar, ParameterDirection.Input,username);
+            sp.DefineSqlParameter("@email", SqlDbType.VarChar, ParameterDirection.Input, email);
 
             try
             {
@@ -100,11 +99,11 @@ namespace WYS.DataLayer.DAObjects
             return ds;
         }
 
-        public DataSet GetPassword(string username)
+        public DataSet GetPassword(string email)
         {
             DataSet ds;
             var sp = new SqlParameterHelper(StoredProcedure.GetPassword, StoredProcedure.GetPasswordPara);
-            sp.DefineSqlParameter("@username", SqlDbType.VarChar, ParameterDirection.Input, username);
+            sp.DefineSqlParameter("@email", SqlDbType.VarChar, ParameterDirection.Input, email);
           
 
             try
@@ -119,12 +118,12 @@ namespace WYS.DataLayer.DAObjects
             return ds;
         }
 
-        public bool UpdateToken(string token, string username)
+        public bool UpdateToken(string token, string email)
         {
             bool status = false;
             var sp = new SqlParameterHelper(StoredProcedure.UpdateToken, StoredProcedure.UpdateTokenPara);
             sp.DefineSqlParameter("@token", SqlDbType.VarChar, ParameterDirection.Input,token);
-            sp.DefineSqlParameter("@username",SqlDbType.VarChar, ParameterDirection.Input, username);
+            sp.DefineSqlParameter("@email", SqlDbType.VarChar, ParameterDirection.Input, email);
 
 
             try
@@ -144,7 +143,7 @@ namespace WYS.DataLayer.DAObjects
         }
 
 
-        public bool Update(string username, string password, int userId, int userRole)
+        public bool Update(string email, string password, int userId, int userRole)
         {
             throw new NotImplementedException();
         }

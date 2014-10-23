@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Security.Cryptography.X509Certificates;
 using Microsoft.SqlServer.Server;
 
 namespace WYS.BusinessLayer.BusinessInterfaces
@@ -13,6 +14,7 @@ namespace WYS.BusinessLayer.BusinessInterfaces
         int RoleId { get; set; }
 
         int DomainId { get; set; }
+        String Username { get; set; }
         String Email { get; set; }
         String Password { get; set; }
 
@@ -26,26 +28,29 @@ namespace WYS.BusinessLayer.BusinessInterfaces
         int IsDeleted { get; set; }
 
         int IsVerified { get; set; }
-        #endregion
 
+        #endregion
 
         #region Methods
 
-        bool Save(string email, String password, int domainId, int roleId);
+        bool Save(String username, String password, String email, int domainId, int roleId);
         List<IUserBo> Getall();
 
         IUserBo GetByid(int userId);
 
-        bool CheckUsername(String email);
+        bool CheckUsername(String username);
 
-        String GetPassword(String email);
+        String GetPassword(String username);
 
         bool Delete(int userId);
 
-        bool Update(String email, String password, int userId, int roleId);
+        bool Update(String username, String password,String email, int userId, int roleId);
 
 
-        bool UpdateToken(String token, String email);
+        bool UpdateToken(String token, String username);
+
+        bool SaveVerificationCode(String code, String username);
+
 
         #endregion
     }

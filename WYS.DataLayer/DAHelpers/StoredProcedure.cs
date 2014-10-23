@@ -1,11 +1,12 @@
 ﻿using System;
+using Microsoft.SqlServer.Server;
 
 namespace WYS.DataLayer.DAHelpers
 {
    public static class StoredProcedure
     {
        public  const String RegisterUser= "register_user";
-       public const int RegisterUserParameters = 4;
+       public const int RegisterUserParameters = 5;
 
        public const String DeleteUser = "delete_user";
        public const int DeleteUserParameters = 1;
@@ -25,5 +26,7 @@ namespace WYS.DataLayer.DAHelpers
        public const String UpdateToken = "update_token";
        public const int UpdateTokenPara = 2;
 
+       public const String SaveVerificationCode = "save_verification_code";
+       public const int SaveVerificationCodePara = 2;
     }
 }

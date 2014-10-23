@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Configuration;
+using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Runtime.CompilerServices;
@@ -11,7 +12,7 @@ namespace WYS.Helpers
     {
         private static readonly ILog Logger = LogManager.GetLogger(typeof(EmailManager));
 
-        private const String SignUpConfirmationSubject = "WYS-CONFIRMATION";
+
 
         public static void SendEmail(String addressRecepient, String subject, String body)
         {
@@ -36,8 +37,8 @@ namespace WYS.Helpers
                 mailMessage.From = new MailAddress(username);
                 mailMessage.Subject = subject;
                 mailMessage.Body = body;
-                client.SendCompleted += Client_SendCompleted;
-                client.SendAsync(mailMessage, null);
+               // client.SendCompleted += Client_SendCompleted;
+                client.Send(mailMessage);
             }
             catch (Exception exception)
             {
@@ -48,11 +49,15 @@ namespace WYS.Helpers
 
         }
 
+/*
 
         private static void Client_SendCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
         {
-
+            
         }
+*/
+
+
 
 
     }

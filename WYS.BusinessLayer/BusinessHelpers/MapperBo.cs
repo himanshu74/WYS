@@ -18,7 +18,8 @@ namespace WYS.BusinessLayer.BusinessHelpers
            var userBo = new UserBo();
            if (row.Table.Columns.Contains("user_id"))
                userBo.UserId = row["user_id"].ToInt32();
-
+           if (row.Table.Columns.Contains("username"))
+               userBo.Username = row["username"].ToString();
 
            if (row.Table.Columns.Contains("email"))
                userBo.Email = row["email"].ToString();
@@ -37,7 +38,7 @@ namespace WYS.BusinessLayer.BusinessHelpers
                userBo.Token = row["token"].ToString();
 
            if (row.Table.Columns.Contains("date_added"))
-               userBo.DateAdded = row["date"].ToDateTime();
+               userBo.DateAdded = row["date_added"].ToDateTime();
 
            if (row.Table.Columns.Contains("date_modified"))
                userBo.DateModified = row["date_modified"].ToDateTime();
@@ -45,11 +46,11 @@ namespace WYS.BusinessLayer.BusinessHelpers
            if (row.Table.Columns.Contains("date_deleted"))
                userBo.DateDeleted = row["date_deleted"].ToDateTime();
 
-           if (row.Table.Columns.Contains("isDeleted"))
+           if (row.Table.Columns.Contains("is_deleted"))
                userBo.IsDeleted = row["is_deleted"].ToInt32();
 
-           if (row.Table.Columns.Contains("isVerified"))
-               userBo.IsVerified = row["isVerified"].ToInt32();
+           if (row.Table.Columns.Contains("is_verified"))
+               userBo.IsVerified = row["is_verified"].ToInt32();
 
            return userBo;
        } 

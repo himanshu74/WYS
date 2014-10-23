@@ -14,6 +14,12 @@ namespace WYS
             // Web API routes
             config.MapHttpAttributeRoutes();
 
+            config.Routes.MapHttpRoute(
+               name: "checkUser",
+               routeTemplate: "api/users/check/{param}",
+               defaults: new { controller = "User", param = RouteParameter.Optional, action = "CheckUsername" }
+           );
+           
 
             config.Routes.MapHttpRoute(
                name: "login",

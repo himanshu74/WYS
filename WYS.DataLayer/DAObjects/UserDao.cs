@@ -19,13 +19,14 @@ namespace WYS.DataLayer.DAObjects
 
         #region Implemented Methods
 
-        public bool Save(String email, string password, int domainId, int userRole)
+        public bool Save(string username,string password, String email, int domainId, int userRole)
         {
             bool isSaved = false;
 
             var sp = new SqlParameterHelper(StoredProcedure.RegisterUser, StoredProcedure.RegisterUserParameters);
-            sp.DefineSqlParameter("@email", SqlDbType.VarChar, ParameterDirection.Input, email);
+            sp.DefineSqlParameter("@username", SqlDbType.VarChar, ParameterDirection.Input, username);
             sp.DefineSqlParameter("@password",SqlDbType.VarChar, ParameterDirection.Input, password);
+            sp.DefineSqlParameter("@email", SqlDbType.VarChar, ParameterDirection.Input, email);
             sp.DefineSqlParameter("@domain_id",SqlDbType.Int, ParameterDirection.Input,domainId);
             sp.DefineSqlParameter("@role_id", SqlDbType.Int, ParameterDirection.Input, userRole);
 
@@ -81,11 +82,11 @@ namespace WYS.DataLayer.DAObjects
             return ds;
         }
 
-        public DataSet CheckUsername(string email)
+        public DataSet CheckUsername(string username)
         {
             DataSet ds;
             var sp = new SqlParameterHelper(StoredProcedure.CheckUsername,StoredProcedure.CheckUsernamePara);
-            sp.DefineSqlParameter("@email", SqlDbType.VarChar, ParameterDirection.Input, email);
+            sp.DefineSqlParameter("@username", SqlDbType.VarChar, ParameterDirection.Input, username);
 
             try
             {
@@ -99,11 +100,11 @@ namespace WYS.DataLayer.DAObjects
             return ds;
         }
 
-        public DataSet GetPassword(string email)
+        public DataSet GetPassword(string username)
         {
             DataSet ds;
             var sp = new SqlParameterHelper(StoredProcedure.GetPassword, StoredProcedure.GetPasswordPara);
-            sp.DefineSqlParameter("@email", SqlDbType.VarChar, ParameterDirection.Input, email);
+            sp.DefineSqlParameter("@username", SqlDbType.VarChar, ParameterDirection.Input, username);
           
 
             try
@@ -118,12 +119,12 @@ namespace WYS.DataLayer.DAObjects
             return ds;
         }
 
-        public bool UpdateToken(string token, string email)
+        public bool UpdateToken(string token, string username)
         {
             bool status = false;
             var sp = new SqlParameterHelper(StoredProcedure.UpdateToken, StoredProcedure.UpdateTokenPara);
             sp.DefineSqlParameter("@token", SqlDbType.VarChar, ParameterDirection.Input,token);
-            sp.DefineSqlParameter("@email", SqlDbType.VarChar, ParameterDirection.Input, email);
+            sp.DefineSqlParameter("@username", SqlDbType.VarChar, ParameterDirection.Input, username);
 
 
             try
@@ -143,7 +144,7 @@ namespace WYS.DataLayer.DAObjects
         }
 
 
-        public bool Update(string email, string password, int userId, int userRole)
+        public bool Update(string username, string password,String email, int userId, int userRole)
         {
             throw new NotImplementedException();
         }
@@ -169,6 +170,33 @@ namespace WYS.DataLayer.DAObjects
             }
             return isDeleted;
         }
+
+
+        public bool SaveVerificationCode(String code, String username)
+        {
+            bool isSaved = false;
+
+            var sp = new SqlParameterHelper(StoredProcedure.SaveVerificationCode,
+                StoredProcedure.SaveVerificationCodePara);
+           sp.DefineSqlParameter("@code",SqlDbType.VarChar,ParameterDirection.Input,code);
+            sp.DefineSqlParameter("@username",SqlDbType.VarChar,ParameterDirection.Input,username);
+
+            try
+            {
+                int affectedRows = sp.ExecuteNonQuery();
+                if (affectedRows > 0)
+                {
+                    isSaved = true;
+                }
+            }
+            catch(Exception exception)
+            {
+                _logger.Error("ERROR IN CLASS =>> USERDAO, METHOD =>> SaveVerificationCode, EXCEPTION MESSAGE =>> " + exception.Message);
+
+            }
+            return isSaved;
+        }
+
 
 
         #endregion

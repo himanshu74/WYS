@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Net.Configuration;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.SqlServer.Server;
 using WYS.BusinessLayer.BusinessHelpers;
 using WYS.BusinessLayer.BusinessInterfaces;
 using WYS.DataLayer.DAHelpers;
 using log4net;
+using WYS.DataLayer.DAObjects;
 
 namespace WYS.BusinessLayer.BusinessObjects
 {
@@ -26,7 +29,8 @@ namespace WYS.BusinessLayer.BusinessObjects
         public int RoleId { get; set; }
 
         public int DomainId { get; set; }
-       
+
+        public String Username { get; set; }
         public string Password { get; set; }
         public String Email { get; set; }
         public String Token { get; set; }
@@ -42,14 +46,14 @@ namespace WYS.BusinessLayer.BusinessObjects
 
         #region User Implemented Methods
 
-        public bool Save(string email, string password, int roleId, int domainId)
+        public bool Save(String username, String password, String email, int domainId, int roleId)
         {
             bool isSaved = false;
             var userDao = DataAccess.UserDao;
 
             try
             {
-                var status = userDao.Save(email, password, domainId, roleId);
+                var status = userDao.Save(username, password, email, domainId, roleId);
                 if (status)
                 {
                     isSaved = true;
@@ -111,19 +115,19 @@ namespace WYS.BusinessLayer.BusinessObjects
             return user;
         }
 
-        public bool CheckUsername(string email)
+        public bool CheckUsername(String username)
         {
             var userDao = DataAccess.UserDao;
             const bool available = true;
             const bool notAvail = false;
             try
             {
-                var ds = userDao.CheckUsername(email);
+                var ds = userDao.CheckUsername(username);
 
                 if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
                     var user = MapperBo.ToUserBo(ds.Tables[0].Rows[0]);
-                    if (user.Email.Trim().ToLower().Equals(email.Trim().ToLower()))
+                    if (user.Username.Trim().ToLower().Equals(username.Trim().ToLower()))
                     {
                         return notAvail;
                     }
@@ -133,19 +137,24 @@ namespace WYS.BusinessLayer.BusinessObjects
             catch (Exception exception)
             {
                 _logger.Error("ERROR IN CLASS =>>> USERBO, METHOD =>>> CheckUsername, EXCEPTION MESSAGE =>> " + exception.Message);
-                throw;
+
+                if (exception.Message.Equals("no user exists with this username"))
+                {
+                    return available;
+                }
+                    return notAvail;
             }
             return available;
         }
 
-        public string GetPassword(string email)
+        public String GetPassword(String username)
         {
             var userDao = DataAccess.UserDao;
             String password = null;
 
             try
             {
-                var ds = userDao.GetPassword(email);
+                var ds = userDao.GetPassword(username);
                 if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
                     var user = MapperBo.ToUserBo(ds.Tables[0].Rows[0]);
@@ -179,13 +188,13 @@ namespace WYS.BusinessLayer.BusinessObjects
             return status;
         }
 
-        public bool UpdateToken(String token, String email)
+        public bool UpdateToken(String token, String username)
         {
             var userDao = DataAccess.UserDao;
             bool status = false;
             try
             {
-                if (userDao.UpdateToken(token, email))
+                if (userDao.UpdateToken(token, username))
                 {
                     status = true;
                 }
@@ -198,10 +207,32 @@ namespace WYS.BusinessLayer.BusinessObjects
             }
             return status;
         }
-        public bool Update(string username, string password, int userId, int roleId)
+        public bool Update(String username, String password, String email, int userId, int roleId)
         {
             throw new NotImplementedException();
         }
+
+        public bool SaveVerificationCode(String code, String username)
+        {
+            bool status = false;
+            var userDao = DataAccess.UserDao;
+
+            try
+            {
+                if (userDao.SaveVerificationCode(code, username))
+                {
+                    status = true;
+                }
+            }
+            catch (Exception exception)
+            {
+                _logger.Error("ERROR IN CLASS =>>> USERBO, METHOD =>>> SaveVerifictionCode, EXCEPTION MESSAGE =>> " + exception.Message);
+                throw;
+            }
+
+            return status;
+        }
+
 
         #endregion
     }

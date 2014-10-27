@@ -18,7 +18,7 @@ namespace WYS.BusinessLayer.BusinessObjects
     {
         #region Private
 
-        private readonly  ILog _logger = LogManager.GetLogger(typeof(UserBo));
+        private readonly ILog _logger = LogManager.GetLogger(typeof(UserBo));
 
         #endregion
 
@@ -33,6 +33,8 @@ namespace WYS.BusinessLayer.BusinessObjects
         public String Username { get; set; }
         public string Password { get; set; }
         public String Email { get; set; }
+
+        public String VerificationCode { get; set; }
         public String Token { get; set; }
         public DateTime DateAdded { get; set; }
         public DateTime DateDeleted { get; set; }
@@ -64,7 +66,7 @@ namespace WYS.BusinessLayer.BusinessObjects
                 _logger.Error("ERROR IN CLASS =>>> USERBO, METHOD =>>> SAVE, EXCEPTION MESSAGE =>> " + exception.Message);
                 throw;
             }
-            
+
             return isSaved;
         }
 
@@ -100,10 +102,10 @@ namespace WYS.BusinessLayer.BusinessObjects
             IUserBo user = null;
             try
             {
-                 var ds = userDao.GetById(userId);
+                var ds = userDao.GetById(userId);
                 if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
-                     user = MapperBo.ToUserBo(ds.Tables[0].Rows[0]);
+                    user = MapperBo.ToUserBo(ds.Tables[0].Rows[0]);
                 }
             }
             catch (Exception exception)
@@ -122,7 +124,7 @@ namespace WYS.BusinessLayer.BusinessObjects
             const bool notAvail = false;
             try
             {
-                var ds = userDao.CheckUsername(username);
+                var ds = userDao.GetUserByUsername(username);
 
                 if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
@@ -131,7 +133,7 @@ namespace WYS.BusinessLayer.BusinessObjects
                     {
                         return notAvail;
                     }
-                    
+
                 }
             }
             catch (Exception exception)
@@ -142,32 +144,32 @@ namespace WYS.BusinessLayer.BusinessObjects
                 {
                     return available;
                 }
-                    return notAvail;
+                return notAvail;
             }
             return available;
         }
 
-        public String GetPassword(String username)
+        public IUserBo ValidateUser(String username)
         {
             var userDao = DataAccess.UserDao;
-            String password = null;
+            UserBo user = null;
 
             try
             {
-                var ds = userDao.GetPassword(username);
+                var ds = userDao.GetUserByUsername(username);
                 if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
-                    var user = MapperBo.ToUserBo(ds.Tables[0].Rows[0]);
-                    password = user.Password;
+                     user = MapperBo.ToUserBo(ds.Tables[0].Rows[0]);
+                   
                 }
             }
             catch (Exception exception)
             {
                 _logger.Error("ERROR IN CLASS =>>> USERBO, METHOD =>>> GetPassword, EXCEPTION MESSAGE =>> " + exception.Message);
- 
+
                 throw;
             }
-            return password;
+            return user;
         }
 
         public bool Delete(int userId)
@@ -178,7 +180,7 @@ namespace WYS.BusinessLayer.BusinessObjects
             try
             {
                 status = userDao.Delete(userId);
-                
+
             }
             catch (Exception exception)
             {
@@ -231,6 +233,63 @@ namespace WYS.BusinessLayer.BusinessObjects
             }
 
             return status;
+        }
+
+        public bool VerifyUser(String username, String code)
+        {
+            var userDao = DataAccess.UserDao;
+            const bool verified = true;
+            const bool notVerified = false;
+
+            try
+            {
+                var ds = userDao.GetUserByUsername(username);
+
+                if (ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    var user = MapperBo.ToUserBo(ds.Tables[0].Rows[0]);
+                    if (user.VerificationCode.Trim().ToLower().Equals(code.Trim().ToLower()))
+                    {
+                        return verified;
+                    }
+
+                }
+            }
+            catch (Exception exception)
+            {
+                _logger.Error("ERROR IN CLASS =>>> USERBO, METHOD =>>> VerifyUser, EXCEPTION MESSAGE =>> " + exception.Message);
+
+                if (exception.Message.Equals("user doesnt exists"))
+                {
+                    return notVerified;
+                }
+                return notVerified;
+            }
+            return notVerified;
+        }
+
+        public bool SetUserVerified(string username)
+        {
+            var userDao = DataAccess.UserDao;
+            bool isUpdated = false;
+
+
+            try
+            {
+                if (userDao.SetUserVerified(username))
+                {
+                    isUpdated = true;
+                }
+            }
+            catch (Exception exception)
+            {
+                _logger.Error("ERROR IN CLASS =>>> USERBO, METHOD =>>> SetUserVerified, EXCEPTION MESSAGE =>> " +
+                              exception.Message);
+
+            }
+
+
+            return isUpdated;
         }
 
 

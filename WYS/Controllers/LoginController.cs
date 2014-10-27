@@ -16,7 +16,7 @@ namespace WYS.Controllers
 
         private readonly ILog _logger = LogManager.GetLogger(typeof (LoginController));
 
-        [HttpGet]
+      /*  [HttpGet]
         public Object Login(String username, String password)
         {
             if (String.IsNullOrEmpty(username) || String.IsNullOrEmpty(password))
@@ -29,7 +29,7 @@ namespace WYS.Controllers
             try
             {
                 IUserBo userBo = new UserBo();
-                String pass = userBo.GetPassword(username);
+                String pass = userBo.ValidateUser( username);
 
                 if (PasswordManager.ValidatePassword(password, pass))
                 {
@@ -55,7 +55,7 @@ namespace WYS.Controllers
             return token;
 
 
-        }
+        }*/
 
 
 

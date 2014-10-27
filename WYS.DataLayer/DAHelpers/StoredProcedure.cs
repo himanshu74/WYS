@@ -28,5 +28,9 @@ namespace WYS.DataLayer.DAHelpers
 
        public const String SaveVerificationCode = "save_verification_code";
        public const int SaveVerificationCodePara = 2;
+
+
+       public const String SetUserVerified = "set_user_verified";
+       public const int SetUSerVerifiedPara = 1;
     }
 }

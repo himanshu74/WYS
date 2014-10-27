@@ -16,8 +16,8 @@ namespace WYS.Controllers
     public class UserController : BaseController
     {
         private static readonly ILog Logger = LogManager.GetLogger(typeof(UserController));
-        private static int Available = 0;
-        private static int NotAvailable = 1;
+        private const int Available = 0;
+        private const int NotAvailable = 1;
 
         #region POST
         [HttpPost]

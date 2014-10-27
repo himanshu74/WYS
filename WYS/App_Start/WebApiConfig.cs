@@ -19,18 +19,30 @@ namespace WYS
                routeTemplate: "api/users/check/{param}",
                defaults: new { controller = "User", param = RouteParameter.Optional, action = "CheckUsername" }
            );
-           
+
+            config.Routes.MapHttpRoute(
+              name: "create",
+              routeTemplate: "api/users/create",
+              defaults: new { controller = "User", param = RouteParameter.Optional, action = "Post" }
+          );
+
+            config.Routes.MapHttpRoute(
+            name: "verify",
+            routeTemplate: "api/account/verify/{username}/{code}",
+            defaults: new { controller = "Account", param = RouteParameter.Optional, action = "VerifyAccount" }
+        );
+
 
             config.Routes.MapHttpRoute(
                name: "login",
-               routeTemplate: "api/users/login/{param}",
-               defaults: new { controller = "Login", param = RouteParameter.Optional , action = "Login"}
+               routeTemplate: "api/account/login/{param}",
+               defaults: new { controller = "Account", param = RouteParameter.Optional , action = "Login"}
            );
 
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
+                routeTemplate: "api/{controller}/{username}/{password}",
                 defaults: new { id = RouteParameter.Optional }
             );
         }

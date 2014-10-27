@@ -11,7 +11,7 @@ namespace WYS.DataLayer.DAInterfaces
         DataSet GetAll();
         DataSet GetById(int userId);
 
-        DataSet CheckUsername(String username);
+        DataSet GetUserByUsername(String username);
 
         DataSet GetPassword(String username);
 
@@ -20,8 +20,10 @@ namespace WYS.DataLayer.DAInterfaces
         bool Update(String username, String password, String email, int userId, int userRole);
         bool Delete(int userId);
 
-
         bool SaveVerificationCode(String code,String username);
+
+        bool SetUserVerified(String username);
+
 
 
     }

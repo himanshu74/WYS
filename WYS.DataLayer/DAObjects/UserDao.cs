@@ -82,7 +82,7 @@ namespace WYS.DataLayer.DAObjects
             return ds;
         }
 
-        public DataSet CheckUsername(string username)
+        public DataSet GetUserByUsername(string username)
         {
             DataSet ds;
             var sp = new SqlParameterHelper(StoredProcedure.CheckUsername,StoredProcedure.CheckUsernamePara);
@@ -197,6 +197,30 @@ namespace WYS.DataLayer.DAObjects
             return isSaved;
         }
 
+        public bool SetUserVerified(String username)
+        {
+            bool isUpdated = false;
+            var sp = new SqlParameterHelper(StoredProcedure.SetUserVerified,
+               StoredProcedure.SetUSerVerifiedPara);
+            sp.DefineSqlParameter("@username", SqlDbType.VarChar, ParameterDirection.Input, username);
+
+            try
+            {
+                int affectedRows = sp.ExecuteNonQuery();
+                if (affectedRows > 0)
+                {
+                    isUpdated = true;
+                }
+            }
+            catch (Exception exception)
+            {
+                _logger.Error("ERROR IN CLASS =>> USERDAO, METHOD =>> SaveVerificationCode, EXCEPTION MESSAGE =>> " + exception.Message);
+
+            }
+
+            return isUpdated;
+
+        }
 
 
         #endregion

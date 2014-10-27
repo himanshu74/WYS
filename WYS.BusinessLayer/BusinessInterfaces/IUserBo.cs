@@ -18,7 +18,7 @@ namespace WYS.BusinessLayer.BusinessInterfaces
         String Email { get; set; }
         String Password { get; set; }
 
-
+        String VerificationCode { get; set; }
 
         String Token { get; set; }
         DateTime DateAdded { get; set; }
@@ -40,7 +40,7 @@ namespace WYS.BusinessLayer.BusinessInterfaces
 
         bool CheckUsername(String username);
 
-        String GetPassword(String username);
+        IUserBo ValidateUser(String username);
 
         bool Delete(int userId);
 
@@ -50,6 +50,10 @@ namespace WYS.BusinessLayer.BusinessInterfaces
         bool UpdateToken(String token, String username);
 
         bool SaveVerificationCode(String code, String username);
+
+        bool VerifyUser(String username, String code);
+
+        bool SetUserVerified(String username);
 
 
         #endregion

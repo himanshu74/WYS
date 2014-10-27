@@ -33,6 +33,8 @@ namespace WYS.BusinessLayer.BusinessHelpers
            if (row.Table.Columns.Contains("domain_id"))
                userBo.DomainId = row["domain_id"].ToInt32();
 
+           if (row.Table.Columns.Contains("verification_code"))
+               userBo.VerificationCode = row["verification_code"].ToString();
 
            if (row.Table.Columns.Contains("token"))
                userBo.Token = row["token"].ToString();
